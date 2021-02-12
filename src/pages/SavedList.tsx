@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { changeNumberToMonth } from "../utils/namedaysHelpers";
-import { ListNamesdayContext } from "../App";
+import { ListContext } from "../context/savedList";
 
 export default function SavedList() {
-  const { savedList, setSavedList } = useContext(ListNamesdayContext);
+  const { savedList, setSavedList } = useContext(ListContext);
 
   const clearDates = () => {
     if (setSavedList) setSavedList([]);

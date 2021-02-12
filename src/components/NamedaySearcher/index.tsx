@@ -1,34 +1,31 @@
 import React, { useState, useContext } from "react";
-import { CountryCode } from "../../utils/API";
 
-import axios from "axios";
-import { ListNamesdayContext } from "../../App";
+import { ListContext } from "../../context/savedList";
 import {
   changeNumberToMonth,
   getAllNamesFromNameDays,
 } from "../../utils/namedaysHelpers";
+import { getByName } from "../../utils/fetchHandlers";
 
 interface PropsSearcher {
   country: CountryCode;
 }
 
 export default function NamedaySearcher({ country }: PropsSearcher) {
-  const [namesdayDates, setNamesdayDates] = useState<
-    SingleDateNames[]
-  >([]);
+  const [namesdayDates, setNamesdayDates] = useState<SingleDateNames[]>([]);
   const [name, setName] = useState<string>("");
   const [searchName, setSearchName] = useState<string>("");
-  const [namesdayPeoples, setNamesdayPeoples] = useState<string[]>([]);
+  const [namesdayPeople, setNamesdayPeople] = useState<string[]>([]);
 
-  const { savedList, setSavedList } = useContext(ListNamesdayContext);
+  const { savedList, setSavedList } = useContext(ListContext);
 
-  const fetchData = (name: string) => {
-    axios(`/getdate?name=${name}&country=${country}`)
+  const handleSearchClick = () => {
+    setSearchName(name);
+    getByName(name, country)
       .then((res) => {
-        const body: SingleDateNames[] = res.data.results;
-        setNamesdayDates(body);
-        getAllNamesFromNameDays(body);
-        setNamesdayPeoples(getAllNamesFromNameDays(body));
+        setNamesdayDates(res);
+        console.log(res);
+        setNamesdayPeople(getAllNamesFromNameDays(res));
       })
       .catch((err) => alert(err.message));
   };
@@ -46,14 +43,7 @@ export default function NamedaySearcher({ country }: PropsSearcher) {
           setName(e.target.value);
         }}
       />
-      <input
-        type="button"
-        onClick={() => {
-          fetchData(name);
-          setSearchName(name);
-        }}
-        value="Submit"
-      />
+      <input type="button" onClick={handleSearchClick} value="Submit" />
       <input
         type="button"
         onClick={() => {
@@ -73,7 +63,7 @@ export default function NamedaySearcher({ country }: PropsSearcher) {
         <>
           <h4>{`${searchName} has nameday at:`}</h4>
           <div style={{ display: "flex", flexWrap: "wrap" }}>
-            {namesdayDates.map(({ day, month }) => (
+            {namesdayDates?.map(({ day, month }) => (
               <div
                 key={String(day) + String(month)}
                 style={{
@@ -94,7 +84,7 @@ export default function NamedaySearcher({ country }: PropsSearcher) {
           </div>
           <b>{`People whose laso have nameday at the same days: `}</b>
           <small>
-            {namesdayPeoples.filter((name) => name !== searchName).join(",  ")}
+            {namesdayPeople.filter((name) => name !== searchName).join(",  ")}
           </small>
         </>
       )}

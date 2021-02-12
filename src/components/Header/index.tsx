@@ -1,6 +1,5 @@
 import React from "react";
 import { countries } from "../../utils/countries";
-import { CountryCode } from "../../utils/API";
 
 interface HeaderProps {
   names?: string[];

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Header, NamedaySearcher } from "../components";
-import axios from "axios";
-import { CountryCode } from "../utils/API";
+
+import {
+  getNameday,
+  getTommorowNamedays,
+  getYesterdayNamedays,
+} from "../utils/fetchHandlers";
 import {
   getMonthDayObjectFromDate,
   getCurrentDate,
 } from "../utils/namedaysHelpers";
-
-interface BodyResponseByDate {
-  dates: SingleDate;
-  namedays: { [Code in CountryCode]: string };
-}
 
 export default function Home() {
   const initialDate = getCurrentDate();
@@ -30,29 +29,24 @@ export default function Home() {
 
   useEffect(() => {
     const { day, month } = getMonthDayObjectFromDate(selectedDate);
-    console.log(day, month);
-    axios(`/namedays?country=${country}&month=${month}&day=${day}`)
+
+    getNameday(day, month, country)
       .then((res) => {
-        const body: BodyResponseByDate = res.data.data;
-        setNames(body.namedays[country].split(", "));
+        setNames(res);
       })
       .catch((err) => alert(err.message));
   }, [selectedDate, country]);
 
   useEffect(() => {
-    axios(`https://api.abalin.net/tomorrow?country=${country}
-    `)
+    getYesterdayNamedays(country)
       .then((res) => {
-        const body: BodyResponseByDate = res.data.data;
-        setNamesTommorow(body.namedays[country].split(", "));
+        setNamesYesterday(res);
       })
       .catch((err) => alert(err.message));
 
-    axios(`https://api.abalin.net/yesterday?country=${country}
-    `)
+    getTommorowNamedays(country)
       .then((res) => {
-        const body: BodyResponseByDate = res.data.data;
-        setNamesYesterday(body.namedays[country].split(", "));
+        setNamesTommorow(res);
       })
       .catch((err) => alert(err.message));
   }, [country]);

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -8,25 +8,14 @@ import {
 import { Navbar } from "./components";
 import { Home, SavedList } from "./pages";
 import * as ROUTES from "./utils/routes";
-
-interface SavedName {
-  name: string;
-  dates: SingleDate[];
-}
-
-export interface ListContext {
-  savedList: SavedName[];
-  setSavedList: React.Dispatch<React.SetStateAction<SavedName[]>>;
-}
-
-export const ListNamesdayContext = createContext<Partial<ListContext>>({});
+import { ListContext } from "./context/savedList";
 
 function App() {
   const [savedList, setSavedList] = useState<SavedName[]>([]);
 
   return (
     <Router>
-      <ListNamesdayContext.Provider value={{ savedList, setSavedList }}>
+      <ListContext.Provider value={{ savedList, setSavedList }}>
         <Navbar />
         <Switch>
           <Route exact path={ROUTES.HOME}>
@@ -39,7 +28,7 @@ function App() {
             <Redirect to={ROUTES.HOME} />
           </Route>
         </Switch>
-      </ListNamesdayContext.Provider>
+      </ListContext.Provider>
     </Router>
   );
 }

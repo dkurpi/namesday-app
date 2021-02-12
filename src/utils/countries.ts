@@ -1,4 +1,3 @@
-import { CountryCode } from "../utils/API";
 interface Country {
   name: string;
   slug: CountryCode;
