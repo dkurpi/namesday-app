@@ -1,3 +1,6 @@
 export { default as Navbar } from "./Navbar";
-export { default as Header } from "./Header";
-export { default as NamedaySearcher } from "./NamedaySearcher";
+export { Header } from "./Header";
+export { Search } from "./Search";
+export { Button } from "./Button";
+export { Dates } from "./Dates";
+export { Wrapper } from "./Wrapper";

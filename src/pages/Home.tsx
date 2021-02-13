@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Header, NamedaySearcher } from "../components";
+import { Header, Wrapper } from "../components";
+import { SearchContainer } from "../containers/SearchContainer";
+import { countries } from "../utils/countries";
 
 import {
   getNameday,
@@ -14,22 +16,21 @@ import {
 export default function Home() {
   const initialDate = getCurrentDate();
   const [selectedDate, setSelectedDate] = useState<string>(initialDate);
-  const [names, setNames] = useState<string[]>([]);
   const [country, setCountry] = useState<CountryCode>("pl");
 
+  const [names, setNames] = useState<string[]>([]);
   const [namesTommorow, setNamesTommorow] = useState<string[]>([]);
   const [namesYesterday, setNamesYesterday] = useState<string[]>([]);
 
-  const changeDate = (nextDate: string) => {
-    setSelectedDate(nextDate);
+  const handleCallendarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(e.target.value);
   };
-  const changeContry = (slug: CountryCode) => {
-    setCountry(slug);
+  const handleInputSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCountry(e.target.value as CountryCode);
   };
 
   useEffect(() => {
     const { day, month } = getMonthDayObjectFromDate(selectedDate);
-
     getNameday(day, month, country)
       .then((res) => {
         setNames(res);
@@ -53,16 +54,49 @@ export default function Home() {
 
   return (
     <>
-      <Header
-        names={names}
-        namesTommorow={namesTommorow}
-        namesYesterday={namesYesterday}
-        selectedDate={selectedDate}
-        country={country}
-        changeDate={changeDate}
-        changeContry={changeContry}
-      />
-      <NamedaySearcher country={country} />
+      <Header>
+        <Header.MainSection>
+          <Header.SecondSection>
+            <Header.MainText>on</Header.MainText>
+            <Header.Callendar
+              value={selectedDate}
+              onChange={handleCallendarChange}
+            />
+            <Header.MainText> the name day is celebrated by:</Header.MainText>
+          </Header.SecondSection>
+
+          <Header.Title>{names?.join(", ") || "Loading..."}</Header.Title>
+        </Header.MainSection>
+
+        <Header.WhiteBoard>
+          <Wrapper alignItems="center" justifyContent="flex-end">
+            <Header.CountryText>Country:</Header.CountryText>
+
+            <Header.SelectInput value={country} onChange={handleInputSelect}>
+              {countries.map(({ name, slug }) => (
+                <Header.Option key={slug} name={name} value={slug}>
+                  {name}
+                </Header.Option>
+              ))}
+            </Header.SelectInput>
+            <Header.Aside>
+              <Header.AsideCard>
+                <Header.SecondText>
+                  {namesTommorow?.join(", ") || "Loading..."}
+                </Header.SecondText>
+                <Header.MainText mark>Tommorow</Header.MainText>
+              </Header.AsideCard>
+              <Header.AsideCard>
+                <Header.SecondText>
+                  {namesYesterday?.join(", ") || "Loading..."}
+                </Header.SecondText>
+                <Header.MainText mark>Yesterday</Header.MainText>
+              </Header.AsideCard>
+            </Header.Aside>
+          </Wrapper>
+        </Header.WhiteBoard>
+      </Header>
+      <SearchContainer country={country} />
     </>
   );
 }

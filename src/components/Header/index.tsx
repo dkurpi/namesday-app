@@ -1,61 +1,103 @@
 import React from "react";
-import { countries } from "../../utils/countries";
+import { HeaderElements } from "./IHeader";
+import {
+  SecontText,
+  WhiteBoard,
+  Aside,
+  AsideCard,
+  CountryText,
+  Title,
+  MainText,
+  SelectInput,
+  Callendar,
+  MainSection,
+  SecondSection,
+} from "./Header.styles";
 
-interface HeaderProps {
-  names?: string[];
-  namesTommorow?: string[];
-  namesYesterday?: string[];
-  selectedDate?: string;
-  changeDate?: any;
-  country?: CountryCode;
-  changeContry?: (slug: CountryCode) => void;
-}
+export const Header: React.FC & HeaderElements = ({ children }) => {
+  return <Header.Background>{children}</Header.Background>;
+};
 
-export default function Header({
-  selectedDate,
-  changeDate,
-  changeContry = () => {},
-  names,
-  country,
-  namesYesterday,
-  namesTommorow,
-}: HeaderProps) {
+Header.Background = ({ children, ...restProps }) => {
   return (
     <div
       style={{
-        padding: "5vh 15vw",
         backgroundColor: "rgb(71,165,233,0.1)",
+        boxSizing: "border-box",
+        padding: "5vh 0 ",
       }}
+      {...restProps}
     >
-      <select
-        id="country"
-        name="country"
-        onChange={(e) => {
-          const slug = e.target.value as CountryCode;
-          changeContry(slug);
-        }}
-        value={country}
-      >
-        {countries.map(({ name, slug }) => (
-          <option key={slug} value={slug}>
-            {name}
-          </option>
-        ))}
-      </select>
-      <input
-        type="date"
-        min="2021-01-01"
-        max="2022-12-31"
-        value={selectedDate}
-        placeholder="mm-dd-yyyy"
-        onChange={(e) => {
-          changeDate(e.target.value);
-        }}
-      />
-      <h1>{names?.join(", ")}</h1>
-
-      <h1>Tommorow: {namesTommorow?.join(", ") || "Loading..."}</h1>
-      <h1>Yesterday: {namesYesterday?.join(", ") || "Loading..."}</h1>
+      {children}
     </div>
   );
-}
+};
+
+Header.SelectInput = ({ children, value, onChange, ...restProps }) => {
+  return (
+    <SelectInput
+      id="country"
+      name="country"
+      onChange={onChange}
+      value={value}
+      {...restProps}
+    >
+      {children}
+    </SelectInput>
+  );
+};
+
+Header.Option = ({ name, value, ...restProps }) => {
+  return (
+    <option value={value} {...restProps}>
+      {name}
+    </option>
+  );
+};
+
+Header.Callendar = ({ onChange, value, ...restProps }) => {
+  return (
+    <Callendar
+      type="date"
+      min="2021-01-01"
+      max="2022-12-31"
+      value={value}
+      placeholder="mm-dd-yyyy"
+      onChange={onChange}
+      {...restProps}
+    />
+  );
+};
+
+Header.MainText = ({ children, ...restProps }) => {
+  return <h1 {...restProps}>{children}</h1>;
+};
+
+Header.Title = ({ children, ...restProps }) => {
+  return <Title {...restProps}>{children}</Title>;
+};
+Header.MainText = ({ children, ...restProps }) => {
+  return <MainText {...restProps}>{children}</MainText>;
+};
+Header.SecondText = ({ children, ...restProps }) => {
+  return <SecontText {...restProps}>{children}</SecontText>;
+};
+Header.WhiteBoard = ({ children, ...restProps }) => {
+  return <WhiteBoard {...restProps}>{children}</WhiteBoard>;
+};
+
+Header.Aside = ({ children, ...restProps }) => {
+  return <Aside {...restProps}>{children}</Aside>;
+};
+Header.AsideCard = ({ children, ...restProps }) => {
+  return <AsideCard {...restProps}>{children}</AsideCard>;
+};
+Header.CountryText = ({ children, ...restProps }) => {
+  return <CountryText {...restProps}>{children}</CountryText>;
+};
+Header.MainSection = ({ children, ...restProps }) => {
+  return <MainSection {...restProps}>{children}</MainSection>;
+};
+Header.SecondSection = ({ children, ...restProps }) => {
+  return <SecondSection {...restProps}>{children}</SecondSection>;
+};

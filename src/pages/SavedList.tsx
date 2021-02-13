@@ -1,49 +1,80 @@
 import React, { useContext } from "react";
 import { changeNumberToMonth } from "../utils/namedaysHelpers";
 import { ListContext } from "../context/savedList";
+import { Header, Search, Button, Dates, Wrapper } from "../components";
 
 export default function SavedList() {
   const { savedList, setSavedList } = useContext(ListContext);
 
-  const clearDates = () => {
+  const clearNames = () => {
     if (setSavedList) setSavedList([]);
+  };
+  const deleteName = (id: number) => {
+    if (setSavedList === undefined) return null;
+    setSavedList((list: SavedName[]) => {
+      const newList = [...list];
+      newList.splice(id, 1);
+      return newList;
+    });
   };
 
   return (
     <>
-      <h1>SavedList</h1>
+      <Header>
+        <Header.Title>Saved Namesday </Header.Title>
+        <Header.SecondSection>
+          {!!savedList?.length && (
+            <Button danger text="Clear all" onClick={clearNames} />
+          )}
+        </Header.SecondSection>
+      </Header>
 
-      <input type="button" value="Clear all" onClick={clearDates} />
-      {savedList?.length !== 0 && (
-        <>
-          <div>
-            {savedList?.map(({ name, dates }) => (
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                <h4>{`${name} has nameday at:`}</h4>
-
-                {dates.map(({ month, day }) => (
-                  <div
-                    key={String(month) + String(month)}
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                      margin: "50px",
-                      backgroundColor: "#ddd",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
+      <Wrapper>
+        {!!savedList?.length ? (
+          <>
+            {savedList?.map(({ name, dates }, id) => (
+              <>
+                <Wrapper
+                  justifyContent="space-between"
+                  alignItems="center"
+                  margin="30px 0 10px"
+                >
+                  <Search.Text size="large">
+                    <>
+                      <b>{name}</b>
+                      {` has nameday at:`}
+                    </>
+                  </Search.Text>
+                  <Button
+                    text="Delete"
+                    remove
+                    onClick={() => {
+                      deleteName(id);
                     }}
-                  >
-                    <h1>{day}</h1>
-                    <h4>{changeNumberToMonth(month)}</h4>
-                  </div>
-                ))}
-              </div>
+                  />
+                </Wrapper>
+                <Dates.Container>
+                  {dates.map(({ month, day }) => (
+                    <Dates.Card marked
+                      key={String(day) + String(month)}
+                      day={day}
+                      month={changeNumberToMonth(month)}
+                    />
+                  ))}
+                </Dates.Container>
+              </>
             ))}
-          </div>
-        </>
-      )}
+          </>
+        ) : (
+          <Header.WhiteBoard>
+            <Header.MainSection>
+              <Header.MainText>
+                {`There isn't any saved names. Save some in 'Home' `}
+              </Header.MainText>
+            </Header.MainSection>
+          </Header.WhiteBoard>
+        )}
+      </Wrapper>
     </>
   );
 }
