@@ -14,8 +14,8 @@ import {
   SecondSection,
 } from "./Header.styles";
 
-export const Header: React.FC & HeaderElements = ({ children }) => {
-  return <Header.Background>{children}</Header.Background>;
+export const Header: React.FC & HeaderElements = ({ children, ...restProps }) => {
+  return <Header.Background {...restProps}>{children}</Header.Background>;
 };
 
 Header.Background = ({ children, ...restProps }) => {
@@ -85,7 +85,6 @@ Header.SecondText = ({ children, ...restProps }) => {
 Header.WhiteBoard = ({ children, ...restProps }) => {
   return <WhiteBoard {...restProps}>{children}</WhiteBoard>;
 };
-
 Header.Aside = ({ children, ...restProps }) => {
   return <Aside {...restProps}>{children}</Aside>;
 };

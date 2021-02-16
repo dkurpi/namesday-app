@@ -1,7 +1,3 @@
-interface Country {
-  name: string;
-  slug: CountryCode;
-}
 export const countries: Country[] = [
   { name: "Austria", slug: "at" },
   { name: "Bulgaria", slug: "bg" },

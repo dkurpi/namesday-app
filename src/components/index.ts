@@ -1,4 +1,4 @@
-export { default as Navbar } from "./Navbar";
+export { Navbar } from "./Navbar";
 export { Header } from "./Header";
 export { Search } from "./Search";
 export { Button } from "./Button";

@@ -1,6 +1,6 @@
 import React from "react";
 import { SeachElements } from "./ISeach";
-import { Text, Input, SimliarDays } from "./Search.styles";
+import { Text, Input, SimliarDays, Form } from "./Search.styles";
 
 export const Search: React.FC & SeachElements = ({ children }) => {
   return <div>{children}</div>;
@@ -15,9 +15,21 @@ Search.Text = ({ children, ...restProps }) => (
 );
 
 Search.Input = ({ value, onChange, children, ...restProps }) => (
-  <Input type="text" name="name" id="name" value={value} onChange={onChange} />
+  <Input
+    data-testid="input"
+    type="text"
+    name="name"
+    id="name"
+    value={value}
+    onChange={onChange}
+  />
 );
 
+Search.Form = ({ children, ...restProps }) => (
+  <Form onSubmit={(e) => e.preventDefault()} action="" {...restProps}>
+    {children}
+  </Form>
+);
 Search.SimliarDays = ({ children, ...restProps }) => (
   <SimliarDays {...restProps}>{children}</SimliarDays>
 );

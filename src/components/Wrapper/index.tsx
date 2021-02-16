@@ -1,51 +1,55 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-interface WrapperProps {
+type WrapperProps = {
   center?: boolean;
   flex?: boolean;
   justifyContent?: string;
   alignItems?: string;
   margin?: string;
   flexDirection?: string;
-}
+};
 
-const StyledWrapper = styled.div`
-  max-width: ${({ theme }: any) => theme.maxWidth};
+export const Wrapper: React.FC<WrapperProps> = ({ children, ...restProps }) => {
+  return <StyledWrapper {...restProps}>{children}</StyledWrapper>;
+};
+
+const StyledWrapper = styled.div<WrapperProps>`
+  max-width: ${({ theme }) => theme.maxWidth};
   margin: 0 auto;
-  ${({ center }: any) =>
+  ${({ center }) =>
     center &&
     css`
       text-align: center;
     `};
 
-  ${({ flex }: any) =>
+  ${({ flex }) =>
     flex &&
     css`
       display: flex;
       width: 100%;
     `};
 
-  ${({ justifyContent }: any) =>
+  ${({ justifyContent }) =>
     justifyContent &&
     css`
       display: flex;
       width: 100%;
       justify-content: ${justifyContent};
     `};
-  ${({ alignItems }: any) =>
+  ${({ alignItems }) =>
     alignItems &&
     css`
       display: flex;
       width: 100%;
       align-items: ${alignItems};
     `};
-  ${({ margin }: any) =>
+  ${({ margin }) =>
     margin &&
     css`
       margin: ${margin};
     `};
-  ${({ flexDirection }: any) =>
+  ${({ flexDirection }) =>
     flexDirection &&
     css`
       display: flex;
@@ -53,7 +57,3 @@ const StyledWrapper = styled.div`
       flex-direction: ${flexDirection};
     `};
 `;
-
-export const Wrapper: React.FC<WrapperProps> = ({ children, ...restProps }) => {
-  return <StyledWrapper {...restProps}>{children}</StyledWrapper>;
-};

@@ -12,6 +12,11 @@ interface SavedName {
   dates: SingleDate[];
 }
 
+interface Country {
+  name: string;
+  slug: CountryCode;
+}
+
 type CountryCode =
   | "bg"
   | "lt"

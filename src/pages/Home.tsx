@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Header, Wrapper } from "../components";
-import { SearchContainer } from "../containers/SearchContainer";
+import { SearchContainer } from "../containers";
 import { countries } from "../utils/countries";
 
 import {
   getNameday,
   getTommorowNamedays,
   getYesterdayNamedays,
-} from "../utils/fetchHandlers";
+} from "../utils/fetchServices";
+
 import {
   getMonthDayObjectFromDate,
   getCurrentDate,
-} from "../utils/namedaysHelpers";
+  getStringFromNamesArray,
+} from "../utils/namedaysServices";
 
-export default function Home() {
+export function Home() {
   const initialDate = getCurrentDate();
   const [selectedDate, setSelectedDate] = useState<string>(initialDate);
   const [country, setCountry] = useState<CountryCode>("pl");
@@ -43,13 +45,13 @@ export default function Home() {
       .then((res) => {
         setNamesYesterday(res);
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => Error(err.message));
 
     getTommorowNamedays(country)
       .then((res) => {
         setNamesTommorow(res);
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => Error(err.message));
   }, [country]);
 
   return (
@@ -62,10 +64,12 @@ export default function Home() {
               value={selectedDate}
               onChange={handleCallendarChange}
             />
-            <Header.MainText> the name day is celebrated by:</Header.MainText>
+            <Header.MainText> name day is celebrated by:</Header.MainText>
           </Header.SecondSection>
 
-          <Header.Title>{names?.join(", ") || "Loading..."}</Header.Title>
+          <Header.Title>
+            {getStringFromNamesArray(names) || "Loading..."}
+          </Header.Title>
         </Header.MainSection>
 
         <Header.WhiteBoard>
@@ -79,16 +83,17 @@ export default function Home() {
                 </Header.Option>
               ))}
             </Header.SelectInput>
+
             <Header.Aside>
               <Header.AsideCard>
                 <Header.SecondText>
-                  {namesTommorow?.join(", ") || "Loading..."}
+                  {getStringFromNamesArray(namesTommorow) || "Loading..."}
                 </Header.SecondText>
                 <Header.MainText mark>Tommorow</Header.MainText>
               </Header.AsideCard>
               <Header.AsideCard>
                 <Header.SecondText>
-                  {namesYesterday?.join(", ") || "Loading..."}
+                  {getStringFromNamesArray(namesYesterday) || "Loading..."}
                 </Header.SecondText>
                 <Header.MainText mark>Yesterday</Header.MainText>
               </Header.AsideCard>

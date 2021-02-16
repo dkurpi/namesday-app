@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-interface ILogo {
+type LogoType = {
   primary?: boolean;
   secondary?: boolean;
-}
+};
 
 export const Nav = styled.nav`
   width: 100%;
-  background-color: ${({ theme }: any) => theme.primary};
+  background-color: ${({ theme }) => theme.primary};
   display: flex;
   align-items: center;
   flex-grow: 1;
@@ -18,7 +18,7 @@ export const Nav = styled.nav`
   right: 0;
 `;
 
-export const LogoText = styled.div<ILogo>`
+export const LogoText = styled.div<LogoType>`
   font-size: 22px;
   font-weight: 700;
   color: ${({ theme }) => theme.white};

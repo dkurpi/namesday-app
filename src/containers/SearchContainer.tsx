@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Search, Button, Dates, Wrapper } from "../components";
 
-import { ListContext } from "../context/savedList";
+import { ListContext } from "../context";
 import {
   changeNumberToMonth,
   getAllNamesFromNameDays,
-} from "../utils/namedaysHelpers";
-import { getByName } from "../utils/fetchHandlers";
+} from "../utils/namedaysServices";
+import { getByName } from "../utils/fetchServices";
 
 export function SearchContainer({ country }: { country: CountryCode }) {
   const [namesdayDates, setNamesdayDates] = useState<SingleDateNames[]>([]);
@@ -15,7 +15,7 @@ export function SearchContainer({ country }: { country: CountryCode }) {
   const [namesdayPeople, setNamesdayPeople] = useState<string[]>([]);
   const [markedDates, setMarkedDates] = useState<number[]>([]);
 
-  const { savedList, setSavedList } = useContext(ListContext);
+  const { savedList, addName } = useContext(ListContext);
 
   const handleInputTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -38,7 +38,6 @@ export function SearchContainer({ country }: { country: CountryCode }) {
     if (!markedDates.length) return alert("Select dates to save!");
     if (!namesdayDates.length)
       return alert("There is not any namedays for this name :(");
-    if (setSavedList === undefined) return;
 
     if (!savedList?.every(({ name }) => name !== searchName))
       return alert(
@@ -51,7 +50,7 @@ export function SearchContainer({ country }: { country: CountryCode }) {
       name: searchName,
       dates,
     };
-    setSavedList((state) => [savedName, ...state]);
+    addName(savedName);
     setMarkedDates([]);
     alert(`Saved, you can find saved namesday in "Saved tab"`);
   };
@@ -78,10 +77,10 @@ export function SearchContainer({ country }: { country: CountryCode }) {
       <Search>
         <Wrapper flex margin="5em 0 6em" justifyContent="space-around">
           <Search.Title>Get name days by name:</Search.Title>
-          <form onSubmit={(e) => e.preventDefault()} action="">
+          <Search.Form>
             <Search.Input value={name} onChange={handleInputTyping} />
             <Button onClick={handleSearchClick} primary text="Search" />
-          </form>
+          </Search.Form>
         </Wrapper>
         {namesdayDates.length !== 0 && (
           <>
@@ -92,8 +91,8 @@ export function SearchContainer({ country }: { country: CountryCode }) {
             >
               <Search.Text size="large">
                 <>
-                  <b>{searchName}</b>
-                  {` has nameday at:`}
+                  <b>{searchName.toUpperCase()} </b>
+                  has nameday at:
                 </>
               </Search.Text>
               <Button
@@ -121,7 +120,7 @@ export function SearchContainer({ country }: { country: CountryCode }) {
 
             <Search.SimliarDays>
               <Search.Text size="large">
-                People who also have nameday at the same days:{" "}
+                People who also have nameday at the same days:
               </Search.Text>
               <Search.Text size="small">
                 {namesdayPeople

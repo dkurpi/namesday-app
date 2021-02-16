@@ -3,6 +3,7 @@ export interface SeachElements {
   Input: React.FC<IInput>;
   Text: React.FC<IText>;
   SimliarDays: React.FC;
+  Form: React.FC;
 }
 
 interface IInput {

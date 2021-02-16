@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Container, Day, Month } from "./Dates.styles";
 
-interface IDateCard {
+interface IDateElements {
   Card: React.FC<ICard>;
   Container: React.FC;
 }
@@ -12,12 +12,13 @@ interface ICard {
   onClick?: () => void;
 }
 
-export const Dates: React.FC & IDateCard = ({ children, ...restProps }) => (
-  <div {...restProps}>{children}</div>
-);
+export const Dates: React.FC<IDateElements> & IDateElements = ({
+  children,
+  ...restProps
+}) => <div {...restProps}>{children}</div>;
 
 Dates.Card = ({ day, month, ...restProps }) => (
-  <Card {...restProps}>
+  <Card data-testid="date-card" {...restProps}>
     <Day>{day}</Day>
     <Month>{month}</Month>
   </Card>

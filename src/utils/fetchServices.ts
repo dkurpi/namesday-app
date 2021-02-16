@@ -17,12 +17,12 @@ export const getByName = async (
 ): Promise<SingleDateNames[]> => {
   try {
     const res: AxiosResponse<APIResponseByName> = await axios(
-      `/getdate?name=${name}&country=${country}`
+      `https://api.abalin.net/getdate?name=${name}&country=${country}`
     );
     const body = res.data.results;
     return body;
   } catch (err) {
-    return err;
+    throw err;
   }
 };
 
@@ -33,12 +33,12 @@ export const getNameday = async (
 ): Promise<string[]> => {
   try {
     const res: AxiosResponse<APIResponseByDate> = await axios(
-      `/namedays?country=${country}&month=${month}&day=${day}`
+      `https://api.abalin.net/namedays?country=${country}&month=${month}&day=${day}`
     );
     const body = res.data.data;
     return body.namedays[country].split(", ");
   } catch (err) {
-    return err;
+    throw err;
   }
 };
 
@@ -52,7 +52,7 @@ export const getTommorowNamedays = async (
     const body = res.data.data;
     return body.namedays[country].split(", ");
   } catch (err) {
-    return err;
+    throw err;
   }
 };
 
@@ -66,6 +66,6 @@ export const getYesterdayNamedays = async (
     const body = res.data.data;
     return body.namedays[country].split(", ");
   } catch (err) {
-    return err;
+    throw err;
   }
 };

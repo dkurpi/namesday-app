@@ -1,13 +1,13 @@
 import React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 
-const theme = {
+export const theme = {
   primary: "#55B8FF",
   secondary: "rgb(71,165,233,0.1)",
   black: "#161616",
   bright: "#FBFBFB",
   white: "#FFF",
-  gray: "#666",
+  gray: "#222",
   pink: "#FF5555",
   maxWidth: "1280px",
   green: "#3c3",

@@ -30,11 +30,14 @@ export function getCurrentDate(): string {
 
 export function getAllNamesFromNameDays(arr: SingleDateNames[]) {
   const names = arr.reduce((acc: string[], curr) => {
-    console.log(curr);
     const currNames = curr.name.split(", ");
     return [...acc, ...currNames];
   }, []);
   const noRepeatedNames = new Set([...names]);
 
   return Array.from(noRepeatedNames);
+}
+
+export function getStringFromNamesArray(namesArr: string[]): string {
+  return namesArr?.join(", ");
 }

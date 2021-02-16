@@ -1,24 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
 } from "react-router-dom";
-import { Navbar } from "./components";
-import { Home, SavedList } from "./pages";
 import * as ROUTES from "./utils/routes";
-import { ListContext } from "./context/savedList";
-import { ThemeLayout } from "./utils/ThemeLayout";
-import Footer from "./containers/FooterContainer";
+
+import { ListProvider, ThemeLayout } from "./context";
+import { Footer, Navbar } from "./containers";
+import { Home, SavedList } from "./pages";
 
 function App() {
-  const [savedList, setSavedList] = useState<SavedName[]>([]);
-
   return (
     <Router>
-      <ThemeLayout>
-        <ListContext.Provider value={{ savedList, setSavedList }}>
+      <ListProvider>
+        <ThemeLayout>
           <Navbar />
           <Switch>
             <Route exact path={ROUTES.HOME}>
@@ -32,8 +29,8 @@ function App() {
             </Route>
           </Switch>
           <Footer />
-        </ListContext.Provider>
-      </ThemeLayout>
+        </ThemeLayout>
+      </ListProvider>
     </Router>
   );
 }
