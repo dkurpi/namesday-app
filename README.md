@@ -13,7 +13,7 @@ For a recruitment task for the **Albracross** company, I made an application tha
 
 ## Demo
 
-Here is a working live demo : https://dkurpi.github.io/nameday-app
+Here is a working live demo : https://dkurpi.github.io/namesday-app
 
 ## Development process
 
