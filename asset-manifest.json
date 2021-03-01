@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/namesday-app/static/js/main.e597bb07.chunk.js",
+    "main.js.map": "/namesday-app/static/js/main.e597bb07.chunk.js.map",
+    "runtime-main.js": "/namesday-app/static/js/runtime-main.986e49fa.js",
+    "runtime-main.js.map": "/namesday-app/static/js/runtime-main.986e49fa.js.map",
+    "static/js/2.377894c3.chunk.js": "/namesday-app/static/js/2.377894c3.chunk.js",
+    "static/js/2.377894c3.chunk.js.map": "/namesday-app/static/js/2.377894c3.chunk.js.map",
+    "static/js/3.b0a193a5.chunk.js": "/namesday-app/static/js/3.b0a193a5.chunk.js",
+    "static/js/3.b0a193a5.chunk.js.map": "/namesday-app/static/js/3.b0a193a5.chunk.js.map",
+    "index.html": "/namesday-app/index.html",
+    "static/js/2.377894c3.chunk.js.LICENSE.txt": "/namesday-app/static/js/2.377894c3.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.986e49fa.js",
+    "static/js/2.377894c3.chunk.js",
+    "static/js/main.e597bb07.chunk.js"
+  ]
+}
